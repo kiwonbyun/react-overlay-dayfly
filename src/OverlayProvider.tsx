@@ -8,16 +8,27 @@ import {
   useState,
 } from 'react';
 
+interface DimStyle {
+  backgroundColor?: string;
+  zIndex?: number;
+}
+
+interface IOverlayProvider {
+  children: ReactNode;
+  dimStyle?: DimStyle | null;
+}
+
 export const OverlayContext = createContext<{
   mount(id: string, element: ReactNode): void;
   unmount(id: string): void;
 } | null>(null);
 
-interface IOverlayProvider {
-  children: ReactNode;
-}
+export const StyleContext = createContext<DimStyle | null>(null);
 
-export const OverlayProvider = ({ children }: IOverlayProvider) => {
+export const OverlayProvider = ({
+  children,
+  dimStyle = null,
+}: IOverlayProvider) => {
   const [overlays, setOverlays] = useState<Map<string, ReactNode>>(new Map());
   const mount = useCallback((id: string, element: ReactNode) => {
     setOverlays((prevOverlays) => {
@@ -41,18 +52,27 @@ export const OverlayProvider = ({ children }: IOverlayProvider) => {
     setOverlays(new Map());
   };
 
+  const modalRoot = document.getElementById('modal-root');
+  if (!modalRoot) {
+    throw new Error(
+      "id:'modal-root' element is required. Please ensure it exists in the DOM."
+    );
+  }
+
   useEffect(() => {
     document.addEventListener('keydown', clearOverlays);
     return () => document.removeEventListener('keydown', clearOverlays);
   }, []);
 
   return (
-    <OverlayContext.Provider value={context}>
-      {children}
-      {[...overlays.entries()].map(([id, element]) => {
-        return <Fragment key={id}>{element}</Fragment>;
-      })}
-      ;
-    </OverlayContext.Provider>
+    <StyleContext.Provider value={dimStyle}>
+      <OverlayContext.Provider value={context}>
+        {children}
+        {[...overlays.entries()].map(([id, element]) => {
+          return <Fragment key={id}>{element}</Fragment>;
+        })}
+        ;
+      </OverlayContext.Provider>
+    </StyleContext.Provider>
   );
 };

@@ -1,13 +1,28 @@
-import React, { Fragment, useEffect } from 'react';
+import React, {
+  CSSProperties,
+  Fragment,
+  HTMLAttributes,
+  useContext,
+  useEffect,
+} from 'react';
 import { createPortal } from 'react-dom';
+import { StyleContext } from './OverlayProvider';
 
-interface OverlayProps {
+interface OverlayProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   children: React.ReactNode;
   close: () => void;
+  style?: CSSProperties;
 }
 
-export const Overlay = ({ isOpen, children, close }: OverlayProps) => {
+export const Overlay = ({
+  isOpen,
+  children,
+  close,
+  style,
+  ...props
+}: OverlayProps) => {
+  const dimStyle = useContext(StyleContext);
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -18,13 +33,6 @@ export const Overlay = ({ isOpen, children, close }: OverlayProps) => {
       document.body.style.overflow = 'auto';
     };
   }, [isOpen]);
-
-  const modalRoot = document.getElementById('modal-root');
-  if (!modalRoot) {
-    throw new Error(
-      "'modal-root' element not found. Please ensure it exists in the DOM."
-    );
-  }
 
   if (!isOpen) return null;
 
@@ -40,11 +48,12 @@ export const Overlay = ({ isOpen, children, close }: OverlayProps) => {
           height: '100%',
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           zIndex: 999,
+          ...dimStyle,
         }}
         onClick={close}
       />
       <div
-        className="dayfly-overlay-container"
+        className={`dayfly-overlay-container ${props.className}`}
         style={{
           position: 'fixed',
           top: '50%',
@@ -56,7 +65,9 @@ export const Overlay = ({ isOpen, children, close }: OverlayProps) => {
           borderRadius: '5px',
           boxShadow: '5px 6px 10px 0px rgba(0, 0, 0, 0.12)',
           padding: '5px 10px',
+          ...style,
         }}
+        {...props}
       >
         {children}
       </div>
