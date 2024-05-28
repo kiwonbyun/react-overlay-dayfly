@@ -1,0 +1,38 @@
+{
+  "name": "react-overlay-dayfly",
+  "version": "1.0.0",
+  "description": "react-overlay-dayfly",
+  "main": "./dist/bundle.js",
+  "type": "module",
+  "repository": "https://github.com/kiwonbyun/react-overlay-dayfly",
+  "author": "kiwonbyun",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
+    "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix",
+    "build": "rollup -c",
+    "watch": "rollup -cw"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-react": "^7.24.6",
+    "@babel/preset-typescript": "^7.24.6",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8",
+    "eslint-config-dayfly": "^1.0.22",
+    "prettier": "^3.2.5",
+    "rollup": "^4.18.0",
+    "rollup-plugin-filesize": "^10.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
