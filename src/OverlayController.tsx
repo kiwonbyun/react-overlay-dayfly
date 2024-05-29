@@ -17,7 +17,7 @@ export type CreateOverlayElement = (props: {
 interface Props {
   overlayElement: CreateOverlayElement;
   onExit: () => void;
-  resolve: (value: boolean) => void;
+  resolve: (value: boolean | number | string) => void;
 }
 
 export interface OverlayControlRef {

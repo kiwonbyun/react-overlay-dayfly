@@ -1,6 +1,7 @@
 import babel from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
 import filesize from 'rollup-plugin-filesize';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: './index.ts',
@@ -22,5 +23,6 @@ export default {
     }),
     typescript(),
     filesize(),
+    terser(),
   ],
 };

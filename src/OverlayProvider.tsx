@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { rootElementId } from './constants';
 
 interface DimStyle {
   backgroundColor?: string;
@@ -52,10 +53,10 @@ export const OverlayProvider = ({
     setOverlays(new Map());
   };
 
-  const modalRoot = document.getElementById('modal-root');
+  const modalRoot = document.getElementById(rootElementId);
   if (!modalRoot) {
     throw new Error(
-      "id:'modal-root' element is required. Please ensure it exists in the DOM."
+      `id:'${rootElementId}' element is required. Please ensure it exists in the DOM.`
     );
   }
 

@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { StyleContext } from './OverlayProvider';
+import { rootElementId } from './constants';
 
 interface OverlayProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const Overlay = ({
   children,
   close,
   style,
+  className,
   ...props
 }: OverlayProps) => {
   const dimStyle = useContext(StyleContext);
@@ -53,7 +55,7 @@ export const Overlay = ({
         onClick={close}
       />
       <div
-        className={`dayfly-overlay-container ${props.className}`}
+        className={`dayfly-overlay-container ${className}`}
         style={{
           position: 'fixed',
           top: '50%',
@@ -72,6 +74,6 @@ export const Overlay = ({
         {children}
       </div>
     </Fragment>,
-    document.getElementById('modal-root') as HTMLElement
+    document.getElementById(rootElementId) as HTMLElement
   );
 };
